@@ -1272,17 +1272,26 @@ toLayoutSharedMsgCmd layouts =
                 , CodeGen.Expression.value "Maybe.withDefault Cmd.none"
                 ]
     in
-    CodeGen.Expression.caseExpression
-        { value = CodeGen.Argument.new "( toLayoutFromPage model, model.layout )"
-        , branches =
-            List.concat
-                [ List.map toBranch layouts
-                , [ { name = "_"
-                    , arguments = []
-                    , expression = CodeGen.Expression.value "Cmd.none"
-                    }
-                  ]
-                ]
+    CodeGen.Expression.letIn
+        { let_ =
+            [ { argument = CodeGen.Argument.new "route"
+              , annotation = Nothing
+              , expression = CodeGen.Expression.value "Route.fromUrl () model.url"
+              }
+            ]
+        , in_ =
+            CodeGen.Expression.caseExpression
+                { value = CodeGen.Argument.new "( toLayoutFromPage model, model.layout )"
+                , branches =
+                    List.concat
+                        [ List.map toBranch layouts
+                        , [ { name = "_"
+                            , arguments = []
+                            , expression = CodeGen.Expression.value "Cmd.none"
+                            }
+                          ]
+                        ]
+                }
         }
 
 
