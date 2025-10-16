@@ -1,6 +1,6 @@
 {
   "name": "@cekrem/elm-land",
-  "version": "0.21.5",
+  "version": "0.21.6",
   "description": "Reliable web apps for everyone",
   "main": "index.js",
   "type": "module",
